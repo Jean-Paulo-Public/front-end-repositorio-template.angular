@@ -1,4 +1,4 @@
-import { Component, ElementRef, AfterViewInit  } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 
 @Component({
@@ -6,7 +6,7 @@ import { MatPaginatorIntl } from '@angular/material/paginator';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent{
   title = 'Marvel';
   selectedType: string = 'characters';
   resultsPerPage: number = 5;
@@ -14,7 +14,7 @@ export class AppComponent implements AfterViewInit {
 
   DarkTheme = false;
   
-  constructor(private matPaginatorIntl: MatPaginatorIntl, private elRef: ElementRef) {
+  constructor(private matPaginatorIntl: MatPaginatorIntl) {
     // Expondo para testes do Cypress
     (window as any).appComponent = this;
     this.applyTheme();
@@ -82,26 +82,5 @@ export class AppComponent implements AfterViewInit {
 
   onSearchChanged(searched: string){
     this.searchText = searched;
-  }
-
-  ngAfterViewInit() {
-    this.updateMainMargin();
-  }
-
-  updateMainMargin() {
-    // encontra o elemento div.footer e o elemento main
-    const footerEl = this.elRef.nativeElement.querySelector('div.footer');
-    const mainEl = this.elRef.nativeElement.querySelector('main');
-
-    if (footerEl && mainEl) {
-      // verifica se o elemento div.footer tem a classe .bottom
-      if (footerEl.classList.contains('bottom')) {
-        // aplica uma margem inferior ao elemento main com o tamanho do elemento div.footer
-        mainEl.style.marginBottom = `${footerEl.offsetHeight}px`;
-      } else {
-        // remove a margem inferior do elemento main
-        mainEl.style.marginBottom = '';
-      }
-    }
   }
 }
